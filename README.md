@@ -1,13 +1,15 @@
 # Non-Audit logs for your Laravel models
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/syberisle/laravel-scribe.svg?style=flat-square)](https://packagist.org/packages/syberisle/laravel-scribe)
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/syberisle/laravel-scribe/run-tests.yml?branch=main&label=Tests)](https://github.com/syberisle/laravel-scribe/actions/workflows/run-tests.yml)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/syberisle/laravel-scribe/run-tests.yml?branch=main&label=Tests)](https://github.com/syberisle/laravel-scribe/actions/workflows/tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/syberisle/laravel-scribe.svg?style=flat-square)](https://packagist.org/packages/syberisle/laravel-scribe)
 
-An opinionate package that provides easy to use functions to log diagnostic information against the models
-in your app. These logs are stored in their own tables. If you are looking for automatic event logging on your model, 
-please look at either [syberisle/laravel-scribe]() or [owen-it/auditable]() as they are more suited for
-an audit log.
+An opinionated package that provides easy to use functions to log diagnostic information against the models
+in your app. These logs are stored in their own tables. 
+
+If you are looking for automatic event logging on your models, please look at either 
+[spatie/laravel-activitylog](https://github.com/spatie/laravel-activitylog) or 
+[owen-it/auditable](https://github.com/owen-it/laravel-auditing) as they are better suited for an audit log.
 
 You can use it like this:
 ```php
