@@ -1,0 +1,18 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use SyberIsle\Laravel\Scribe\Model\Log;
+
+/**
+ * DummyParent Log class
+ */
+class DummyClass extends Log
+{
+    use HasUuids;
+
+    protected $table = 'DummyLogTable';
+
+    protected $subjectModel = \DummyParent::class;
+}

@@ -1,0 +1,15 @@
+<?php
+
+namespace DummyNamespace;
+
+use SyberIsle\Laravel\Scribe\Model\Log;
+
+/**
+ * DummyParent Log class
+ */
+class DummyClass extends Log
+{
+    protected $table = 'DummyLogTable';
+
+    protected $subjectModel = \DummyParent::class;
+}
