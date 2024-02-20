@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->timestamp('created_on');
             $table->integer('level')->default(LOG_INFO);
             $table->{{ subject_type }}('subject_id');
-            $table->{{ causer_type }}('causer', 'causer');
+            $table->{{ causer_type }}('causer');
             $table->string('message');
             $table->json('context')->nullable();
 

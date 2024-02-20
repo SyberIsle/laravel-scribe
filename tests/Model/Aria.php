@@ -14,5 +14,4 @@ class Aria
 
 	protected $table    = 'arias';
 	protected $fillable = ['name'];
-	protected $logModel = AriaLog::class;
 }

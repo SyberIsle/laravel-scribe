@@ -43,7 +43,7 @@ class MakeMigrationForJournalTest
 		return [
 			['uuid', "uuid('id')"],
 			['subject-uuid', "uuid('subject_id')"],
-			['causer-uuid', "nullableUuidMorphs('causer', 'causer')"],
+			['causer-uuid', "nullableUuidMorphs('causer')"],
 		];
 	}
 

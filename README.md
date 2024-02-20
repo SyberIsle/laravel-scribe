@@ -37,15 +37,24 @@ the migration to be auto-generated.
 
 You will also need to update your model to get the `logs()`, and `log()` methods.
 ```php
-
 use SyberIsle\Laravel\Scribe\Model\HasLogs;
 
 class MyModel
 {
     use HasLogs;
-    
-    protected $logModel = MyModelLog::class
-    ...
+}
+```
+
+If you rename your models log class you can set `$logModel`
+
+```php
+use SyberIsle\Laravel\Scribe\Model\HasLogs;
+
+class MyModel
+{
+    use HasLogs;
+
+    protected $logModel = MyOtherLog::class
 }
 ```
 

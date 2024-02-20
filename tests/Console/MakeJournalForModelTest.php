@@ -72,7 +72,7 @@ class MakeJournalForModelTest
 
 		self::assertStringContainsString("uuid('id')", $data);
 		self::assertStringContainsString("uuid('subject_id')", $data);
-		self::assertStringContainsString("nullableUuidMorphs('causer', 'causer')", $data);
+		self::assertStringContainsString("nullableUuidMorphs('causer')", $data);
 		unlink($file);
 	}
 }

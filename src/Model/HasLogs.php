@@ -25,7 +25,7 @@ trait HasLogs
 	 */
 	public function log(string $message, int $level = LOG_INFO, $context = null): Log
 	{
-		$class = $this->logModel ?? (self::class . 'Log');
+		$class = $this->resolveLogModel();
 		$log   = new $class;
 
 		$log->level   = $level;
@@ -49,6 +49,14 @@ trait HasLogs
 	 */
 	public function logs(): HasMany
 	{
-		return $this->hasMany($this->logModel ?? (self::class . 'Log'), 'subject_id');
+		return $this->hasMany($this->resolveLogModel(), 'subject_id');
+	}
+
+	/**
+	 * @return string The resolved name of the log model in use
+	 */
+	private function resolveLogModel(): string
+	{
+		return $this->logModel ?? ($this->logModel = self::class . 'Log');
 	}
 }
