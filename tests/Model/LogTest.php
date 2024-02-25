@@ -2,13 +2,11 @@
 
 namespace SyberIsle\Laravel\Scribe\Test\Model;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
-use SyberIsle\Laravel\Scribe\Model\Log;
 use SyberIsle\Laravel\Scribe\Test\TestCase;
 
 class LogTest
@@ -103,5 +101,34 @@ class LogTest
 	public function testSubjectIdAttributeWithoutUnderscore()
 	{
 		self::assertEquals($this->a1->id, AriaLog::forSubject($this->a1)->get()[0]->subjectId);
+	}
+
+	public function testWriteThrowsWithBadLogModel()
+	{
+		$this->expectException(\BadMethodCallException::class);
+		$this->expectExceptionMessage("Subject must be " . Aria::class);
+		AriaLog::make()->write(new Test(), "will throw", LOG_EMERG);
+	}
+
+	public function testWriteLogs()
+	{
+		$subject     = new Aria();
+		$subject->id = 1;
+		self::assertInstanceOf(
+			AriaLog::class,
+			AriaLog::make()->write($subject, "kakaw")
+		);
+	}
+
+	public function testWriteThrowsWhenCouldNotSave()
+	{
+		AriaLog::saving(function () {
+			return false;
+		});
+
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage("Unable to save the log");
+
+		AriaLog::make()->write(Aria::make(), "kakaw");
 	}
 }

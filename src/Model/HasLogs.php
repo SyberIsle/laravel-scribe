@@ -8,7 +8,6 @@
 namespace SyberIsle\Laravel\Scribe\Model;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Trait to allow models to retrieve their logs and make a log entry
@@ -16,32 +15,43 @@ use Illuminate\Support\Facades\Auth;
 trait HasLogs
 {
 	/**
+	 * Allows usage of the $logModel property in the composed class while maintaining a simple cache of the log model
+	 * name without interfering with HasAttributes
+	 *
+	 * @var string
+	 */
+	private string $__logModel; // phpcs:ignore -- deliberately using __ to indicate it's a special trait property
+
+	/**
+	 * Interfaces with the HasAttributes trait
+	 *
+	 * @return string The log model class
+	 */
+	public function getLogModelAttribute(): string
+	{
+		return $this->logModel();
+	}
+
+	/**
 	 * Logs the message
 	 *
-	 * @param string $message The message to log
-	 * @param int    $level   The level of the message.
+	 * @param string                $message The message to log
+	 * @param int                   $level   The level of the message
+	 * @param ?array<string, mixed> $context Additional context
 	 *
 	 * @return Log
 	 */
-	public function log(string $message, int $level = LOG_INFO, $context = null): Log
+	public function log(string $message, int $level = LOG_INFO, ?array $context = []): Log
 	{
-		$class = $this->logModel ?? (self::class . 'Log');
-		$log   = new $class;
+		return ($this->logModel())::make()->write($this, $message, $level, $context);
+	}
 
-		$log->level   = $level;
-		$log->message = $message;
-		if ($context) {
-			$log->context = $context;
-		}
-
-		if (Auth::hasUser()) {
-			$log->causer()->associate(Auth::user());
-		}
-
-		$log->subject()->associate($this);
-		$log->save();
-
-		return $log;
+	/**
+	 * @return string The Log model to use
+	 */
+	public function logModel(): string
+	{
+		return $this->__logModel ??= property_exists($this, 'logModel') ? $this->logModel : self::class . 'Log';
 	}
 
 	/**
@@ -49,6 +59,6 @@ trait HasLogs
 	 */
 	public function logs(): HasMany
 	{
-		return $this->hasMany($this->logModel ?? (self::class . 'Log'), 'subject_id');
+		return $this->hasMany($this->logModel(), 'subject_id');
 	}
 }
